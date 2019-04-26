@@ -1,11 +1,10 @@
 import express from 'express';
 import passport from 'passport';
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import {mLog} from './lib/utils';
-import {db as database} from './models';
+import { mLog } from './lib/utils';
+import { db as database } from './models';
 import routes from './routes';
-
 
 dotenv.config();
 
@@ -13,25 +12,25 @@ const port = parseInt(process.argv[2], 10) || process.env.PORT;
 const app = express();
 app.use(passport.initialize());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extend : false }))
+app.use(bodyParser.urlencoded({ extend: false }));
 
 const start = async () => {
-    try {
-        await database.authenticate();
-        if (process.env.APP === 'development') {
-            database.sync({force: process.env.DATABASE_SYNC_FORCE});
-        }
-
-        app.use('/api', routes);
-        app.listen(port, (err) => {
-            if (err) {
-                throw err;
-            } else {
-                mLog(`Server is running on port ${port}`, 'cyan');
-            }
-        });
-    } catch (e) {
-        throw e;
+  try {
+    await database.authenticate();
+    if (process.env.APP === 'development') {
+      database.sync({ force: false });
     }
-}
+
+    app.use('/api', routes);
+    app.listen(port, (err) => {
+      if (err) {
+        throw err;
+      } else {
+        mLog(`Server is running on port ${port}`, 'cyan');
+      }
+    });
+  } catch (e) {
+    throw e;
+  }
+};
 start();

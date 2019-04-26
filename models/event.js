@@ -4,7 +4,7 @@ export default class Event extends Model {
   static init(database) {
     return super.init(
       {
-        id: {
+        idEvent: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,

@@ -24,7 +24,7 @@ export default class Category extends Model {
     this.belongsToMany(models.Event, {
       through: 'EventsCategory',
       as: 'events',
-      foreignKey: 'id',
+      foreignKey: 'idEvent',
     });
   }
 }
